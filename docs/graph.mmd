@@ -1,0 +1,41 @@
+---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+	__start__([START]):::first
+	intake(intake)
+	classify(classify)
+	answer(answer)
+	tool(tool)
+	evaluate(evaluate)
+	clarify(clarify)
+	risky_action(risky_action)
+	approval(approval)
+	retry(retry)
+	dead_letter(dead_letter)
+	finalize(finalize)
+	__end__([END]):::last
+	__start__ --> intake;
+	intake --> classify;
+	classify -.-> answer;
+	classify -.-> tool;
+	classify -.-> clarify;
+	classify -.-> risky_action;
+	classify -.-> retry;
+	answer --> finalize;
+	tool --> evaluate;
+	evaluate -.-> answer;
+	evaluate -.-> retry;
+	clarify --> finalize;
+	risky_action --> approval;
+	approval -.-> tool;
+	approval -.-> clarify;
+	retry -.-> tool;
+	retry -.-> dead_letter;
+	dead_letter --> finalize;
+	finalize --> __end__;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc
